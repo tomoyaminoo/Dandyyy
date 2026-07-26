@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Dating Invitation? 🎮✨</title>
+    <!-- Confetti explosion library for the final step -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            padding: 32px;
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #f472b6;
+            text-shadow: 0 0 10px rgba(244, 114, 182, 0.3);
+        }
+
+        p {
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+
+        /* Button groups for step 1 */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            min-height: 60px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.6);
+        }
+
+        .btn-no {
+            background: #475569;
+            color: white;
+            position: absolute;
+            transition: all 0.15s ease-out;
+        }
+
+        /* Selection forms */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 14px 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .option-card.selected {
+            border-color: #ec4899;
+            background: rgba(236, 72, 153, 0.25);
+            box-shadow: 0 0 12px rgba(236, 72, 153, 0.4);
+        }
+
+        .option-card span {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .field-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .field-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+        }
+
+        select, input[type="time"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.8);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        /* Final screen */
+        .final-image {
+            width: 200px;
+            height: auto;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            border: 4px solid #ec4899;
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .summary-box {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0 24px;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .summary-box span {
+            color: #f472b6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- STEP 1: DATING INVITATION -->
+        <div class="step active" id="step1">
+            <h2>Hii Dandyyy!! wanna go on a game date with me? 🥺🎮</h2>
+            <p>I miss u so muchhh, let's play some games together!</p>
+            <div class="btn-group" id="btnGroup">
+                <button class="btn-yes" onclick="nextStep(2)">Sureeee!!!! ❤️</button>
+                <button class="btn-no" id="btnNo">No!! </button>
+            </div>
+        </div>
+
+        <!-- STEP 2: GAME SELECTION -->
+        <div class="step" id="step2">
+            <h2>Choose Your Game 🕹️</h2>
+            <p>Select one of the games below:</p>
+            <div class="options-grid">
+                <div class="option-card" onclick="selectGame(this, 'Valorant')">
+                    <span>🎯 Valorant</span>
+                </div>
+                <div class="option-card" onclick="selectGame(this, 'Minecraft')">
+                    <span>⛏️ Minecraft</span>
+                </div>
+                <div class="option-card" onclick="selectGame(this, 'Mobile Legends')">
+                    <span>⚔️ MLBB</span>
+                </div>
+            </div>
+            <button class="btn-yes" style="width: 100%;" onclick="validateStep2()">Continue ➡️</button>
+        </div>
+
+        <!-- STEP 3: TIME & MODE SELECTION -->
+        <div class="step" id="step3">
+            <h2>Set the Schedule ⏰</h2>
+            
+            <div class="field-group">
+                <label for="modeSelect">Game mode:</label>
+                <select id="modeSelect">
+                    <option value="Play chill chill, just for fun">Chill with Tomooo 🦊</option>
+                    <option value="Rank up tryhard">Rank up tryhard 🏆</option>
+                    <option value="Troll game, mess around">Take a photo ✨</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="timeInput">What time can we play? 🥺</label>
+                <input type="time" id="timeInput" value="20:00">
+            </div>
+
+            <button class="btn-yes" style="width: 100%;" onclick="finishSetup()">Confirm the date! 🔥</button>
+        </div>
+
+        <!-- STEP 4: FINAL EXPLOSION -->
+        <div class="step" id="step4">
+            <!-- Link GIF Furina chuẩn Tenor -->
+            <img class="final-image" src="https://media1.tenor.com/m/yvkm0qscqEMAAAAC/furina-genshin-impact.gif" alt="Cute Furina">
+            <h2>Let's Get Ready Bae Dandyyyy 🎉🎉</h2>
+            <p>You promised, don't break the date!!!!!</p>
+
+            <div class="summary-box">
+                📌 <b>Game:</b> <span id="summaryGame">-</span><br>
+                📌 <b>Mode:</b> <span id="summaryMode">-</span><br>
+                📌 <b>Time:</b> <span id="summaryTime">-</span>
+            </div>
+
+            <p style="color: #f472b6; font-weight: bold;">Love u so muchhhhhh !!!! 🚀❤️</p>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. HANDLING THE NO BUTTON DODGING MOUSE ---
+        const btnNo = document.getElementById('btnNo');
+        const btnGroup = document.getElementById('btnGroup');
+
+        btnNo.style.right = '20px';
+
+        function moveButton() {
+            const card = document.querySelector('.card');
+            const cardRect = card.getBoundingClientRect();
+            
+            const maxX = cardRect.width - btnNo.offsetWidth - 40;
+            const maxY = cardRect.height - btnNo.offsetHeight - 40;
+
+            const randomX = Math.floor(Math.random() * maxX) - (maxX / 2);
+            const randomY = Math.floor(Math.random() * maxY) - (maxY / 2);
+
+            btnNo.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        btnNo.addEventListener('mouseover', moveButton);
+        btnNo.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // --- 2. HANDLING STEP TRANSITIONS ---
+        let selectedGame = '';
+
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+        }
+
+        function selectGame(element, gameName) {
+            document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedGame = gameName;
+        }
+
+        function validateStep2() {
+            if (!selectedGame) {
+                alert('Please choose a game 🥺');
+                return;
+            }
+            nextStep(3);
+        }
+
+        // --- 3. HANDLING CONFETTI EXPLOSION & CONCLUSION ---
+        function finishSetup() {
+            const mode = document.getElementById('modeSelect').value;
+            const time = document.getElementById('timeInput').value;
+
+            document.getElementById('summaryGame').innerText = selectedGame;
+            document.getElementById('summaryMode').innerText = mode;
+            document.getElementById('summaryTime').innerText = time;
+
+            nextStep(4);
+
+            // Continuous confetti burst
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                confetti({
+                    particleCount: 40,
+                    startVelocity: 30,
+                    spread: 360,
+                    origin: {
+                        x: Math.random(),
+                        y: Math.random() - 0.2
+                    }
+                });
+            }, 250);
+        }
+    </script>
+</body>
+</html>
